@@ -2,17 +2,17 @@ require 'spec_helper'
 require_relative '../lib/ordered_jobs'
 
 describe "Ordered Jobs" do
-  context "empty input" do
+  context "Empty String" do
     subject { JobStructure.new("") }
     its(:sequence) { should eq [ ] }
   end
 
-  context "single job" do
+  context "Single Job" do
     subject { JobStructure.new("a => ") }
     its(:sequence) { should eq %w[ a ] }
   end
 
-  context "multiple jobs" do
+  context "Multiple Jobs" do
     subject {
       JobStructure.new(-%{
         a => 
