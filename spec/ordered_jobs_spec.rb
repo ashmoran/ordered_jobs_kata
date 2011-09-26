@@ -3,8 +3,12 @@ require_relative '../lib/ordered_jobs'
 
 describe "Ordered Jobs" do
   context "empty input" do
-    it "returns an empty sequence" do
-      JobStructure.new("").sequence.should eq [ ]
-    end
+    subject { JobStructure.new("") }
+    its(:sequence) { should eq [ ] }
+  end
+
+  context "single job" do
+    subject { JobStructure.new("a => ") }
+    its(:sequence) { should eq %w[ a ] }
   end
 end
