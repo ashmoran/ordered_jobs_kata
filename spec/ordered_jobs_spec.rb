@@ -11,4 +11,16 @@ describe "Ordered Jobs" do
     subject { JobStructure.new("a => ") }
     its(:sequence) { should eq %w[ a ] }
   end
+
+  context "multiple jobs" do
+    subject {
+      JobStructure.new(-%{
+        a => 
+        b => 
+        c => 
+      })
+    }
+
+    its(:sequence) { should =~ %w[ a b c ] }
+  end
 end

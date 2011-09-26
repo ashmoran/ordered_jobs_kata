@@ -10,6 +10,7 @@ GEM
       thor (~> 0.14.6)
     guard-rspec (0.4.5)
       guard (>= 0.4.0)
+    lstrip-on-steroids (1.0.0)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -29,4 +30,5 @@ DEPENDENCIES
   fuubar
   guard
   guard-rspec
+  lstrip-on-steroids
   rspec
