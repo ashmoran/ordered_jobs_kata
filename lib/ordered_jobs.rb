@@ -1,4 +1,5 @@
-require 'spec_helper'
-require_relative "../lib/ordered_jobs"
-
-des
+class JobStructure
+  def sequence
+    [ ]
+  end
+end
