@@ -20,7 +20,7 @@ class JobStructure
     graph = RGL::DirectedAdjacencyGraph.new
 
     job_description.split("\n").map { |line|
-      match = /(\w) => (\w?)/.match(line)
+      match = /(\w) => *(\w?)/.match(line)
       to, from = match[1..2]
       graph.add_edge(from, to)
     }
