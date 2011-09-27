@@ -59,13 +59,17 @@ describe "Ordered Jobs" do
   end
 
   context "Multiple Jobs, Self Referencing Dependency" do
+    subject {
+      JobStructure.new(-%{
+        a =>
+        b =>
+        c => c
+      })
+    }
+
     it "raises an error" do
       expect {
-        JobStructure.new(-%{
-          a =>
-          b =>
-          c => c
-        })
+        subject.sequence
       }.to raise_error(ArgumentError) { |error|
         error.message.should eq %Q{Job "c" can't depend on itself}
       }
@@ -85,7 +89,6 @@ describe "Ordered Jobs" do
     }
 
     it "raises an error" do
-      # This asymmetry is a bad sign, argument errors are detected at different points
       expect {
         subject.sequence
       }.to raise_error(ArgumentError) { |error|
