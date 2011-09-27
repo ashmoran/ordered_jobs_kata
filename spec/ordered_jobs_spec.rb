@@ -35,7 +35,7 @@ describe "Ordered Jobs" do
 
     its(:sequence) { should =~ %w[ a b c ] }
 
-    specify { subject.sequence.index("c").should be < subject.sequence.index("b") }
+    specify { subject.sequence.should order_element("c").before("b") }
   end
 
   context "Multiple Jobs, Multiple Dependencies" do
@@ -52,10 +52,10 @@ describe "Ordered Jobs" do
 
     its(:sequence) { should =~ %w[ a b c d e f ] }
 
-    specify { subject.sequence.index("f").should be < subject.sequence.index("c") }
-    specify { subject.sequence.index("c").should be < subject.sequence.index("b") }
-    specify { subject.sequence.index("b").should be < subject.sequence.index("e") }
-    specify { subject.sequence.index("a").should be < subject.sequence.index("d") }
+    specify { subject.sequence.should order_element("f").before("c") }
+    specify { subject.sequence.should order_element("c").before("b") }
+    specify { subject.sequence.should order_element("b").before("e") }
+    specify { subject.sequence.should order_element("a").before("d") }
   end
 
   context "Multiple Jobs, Self Referencing Dependency" do
