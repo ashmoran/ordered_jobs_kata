@@ -57,4 +57,18 @@ describe "Ordered Jobs" do
     specify { subject.sequence.index("b").should be < subject.sequence.index("e") }
     specify { subject.sequence.index("a").should be < subject.sequence.index("d") }
   end
+
+  context "Multiple Jobs, Self Referencing Dependency" do
+    it "raises an error" do
+      expect {
+        JobStructure.new(-%{
+          a =>
+          b =>
+          c => c
+        })
+      }.to raise_error(ArgumentError) { |error|
+        error.message.should eq %Q{Job "c" can't depend on itself}
+      }
+    end
+  end
 end

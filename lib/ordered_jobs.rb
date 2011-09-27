@@ -24,6 +24,7 @@ class JobStructure
     job_description.split("\n").inject([ ]) { |dependencies, line|
       match = /(\w) => *(\w?)/.match(line)
       to, from = match[1..2]
+      raise ArgumentError.new(%Q{Job "#{to}" can't depend on itself}) if to == from
       dependencies << [to, from]
     }
   end
