@@ -23,4 +23,18 @@ describe "Ordered Jobs" do
 
     its(:sequence) { should =~ %w[ a b c ] }
   end
+
+  context "Multiple Jobs, Single Dependency" do
+    subject {
+      JobStructure.new(-%{
+        a => 
+        b => c
+        c => 
+      })
+    }
+
+    its(:sequence) { should =~ %w[ a b c ] }
+
+    specify { subject.sequence.index("c").should be < subject.sequence.index("b") }
+  end
 end
