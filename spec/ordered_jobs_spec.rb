@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'lstrip-on-steroids'
+
 require_relative '../lib/ordered_jobs'
 
 describe "Ordered Jobs" do

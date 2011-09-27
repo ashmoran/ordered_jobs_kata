@@ -1,9 +1,5 @@
-require 'lstrip-on-steroids'
-
 require 'rgl/adjacency'
 require 'rgl/topsort'
-require 'rgl/transitiv_closure'
-require 'rgl/connected_components'
 
 class JobStructure
   def initialize(raw_job_description)
