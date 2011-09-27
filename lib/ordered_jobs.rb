@@ -15,6 +15,7 @@ class JobStructure
     @dependencies.each do |to, from|
       graph.add_edge(from, to)
     end
+    raise ArgumentError.new("The job dependencies can't contain cycles") unless graph.acyclic?
     graph.topsort_iterator.to_a.reject { |job| job == "" }
   end
 

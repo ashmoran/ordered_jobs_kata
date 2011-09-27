@@ -71,4 +71,26 @@ describe "Ordered Jobs" do
       }
     end
   end
+
+  context "Multiple Jobs, Self Referencing Dependency" do
+    subject {
+      JobStructure.new(-%{
+        a =>
+        b => c
+        c => f
+        d => a
+        e =>
+        f => b
+      })
+    }
+
+    it "raises an error" do
+      # This asymmetry is a bad sign, argument errors are detected at different points
+      expect {
+        subject.sequence
+      }.to raise_error(ArgumentError) { |error|
+        error.message.should eq %Q{The job dependencies can't contain cycles}
+      }
+    end
+  end
 end
