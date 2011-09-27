@@ -7,24 +7,24 @@ require 'rgl/connected_components'
 
 class JobStructure
   def initialize(job_description)
-    @jobs = extract_names(job_description)
+    @dependencies = extract_dependencies(job_description)
   end
 
   def sequence
-    @jobs
+    graph = RGL::DirectedAdjacencyGraph.new
+    @dependencies.each do |to, from|
+      graph.add_edge(from, to)
+    end
+    graph.topsort_iterator.to_a.reject { |job| job == "" }
   end
 
   private
 
-  def extract_names(job_description)
-    graph = RGL::DirectedAdjacencyGraph.new
-
-    job_description.split("\n").map { |line|
+  def extract_dependencies(job_description)
+    job_description.split("\n").inject([ ]) { |dependencies, line|
       match = /(\w) => *(\w?)/.match(line)
       to, from = match[1..2]
-      graph.add_edge(from, to)
+      dependencies << [to, from]
     }
-
-    graph.topsort_iterator.to_a.reject { |job| job == "" }
   end
 end
