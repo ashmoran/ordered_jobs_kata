@@ -7,14 +7,12 @@ require 'rgl/connected_components'
 
 class JobStructure
   def initialize(raw_job_description)
-    @job_description = JobDescription.new(raw_job_description)
+    @raw_job_description = raw_job_description
   end
 
   def sequence
     graph = JobDependencyGraph.new
-    @job_description.each do |to, from|
-      graph.add_job_dependency(from, to)
-    end
+    JobDescription.new(@raw_job_description).add_dependencies_to(graph)
     graph.sorted_sequence
   end
 end
@@ -24,9 +22,13 @@ class JobDescription
     @raw_job_description = raw_job_description
   end
 
-  def each(&block)
-    dependencies.each(&block)
+  def add_dependencies_to(graph)
+    dependencies.each do |to, from|
+      graph.add_job_dependency(from, to)
+    end
   end
+
+  private
 
   def dependencies
     @raw_job_description.split("\n").map { |line|
